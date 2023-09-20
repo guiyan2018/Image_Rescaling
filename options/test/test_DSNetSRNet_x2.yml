@@ -1,0 +1,54 @@
+name: DSNetSRNet_x2
+suffix: ~  # add suffix to saved images
+model: DSNetSRNet
+distortion: sr
+scale: 2
+crop_border: ~  # crop border when evaluation. If None(~), crop the scale pixels
+gpu_ids: [0]
+
+datasets:
+  test_1:  # the 1st test dataset
+    name: set5
+    mode: LQGT
+    dataroot_GT: /media/ps/c21e4062-e762-4284-8555-5ff13ba44d41/datasets/datasets/Set5 # path to test HR images
+    dataroot_LQ: ~ # path to test reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+  test_2:  # the 2st test dataset
+    name: set14
+    mode: LQGT
+    dataroot_GT: /media/ps/c21e4062-e762-4284-8555-5ff13ba44d41/datasets/datasets/Set14 # path to test HR images
+    dataroot_LQ: ~ # path to test reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+  test_3:  # the 3st test dataset
+    name: B100
+    mode: LQGT
+    #dataroot_GT: ~
+    dataroot_GT: /media/ps/c21e4062-e762-4284-8555-5ff13ba44d41/datasets/datasets/BSDS100 # path to test HR images
+    dataroot_LQ: ~ # path to test reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+  test_4:  # the 3st test dataset
+    name: Urban100
+    mode: LQGT
+    #dataroot_GT: ~
+    dataroot_GT: /media/ps/c21e4062-e762-4284-8555-5ff13ba44d41/datasets/datasets/Urban100 # path to test HR images
+    dataroot_LQ: ~ # path to test reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+  test_5:
+    name: val_DIV2K
+    mode: LQGT
+    #dataroot_GT: ~
+    dataroot_GT: /media/ps/c21e4062-e762-4284-8555-5ff13ba44d41/datasets/datasets/DIV2K_valid_HR # path to test HR images
+    dataroot_LQ: ~ # path to test reference LR images, not necessary, if not provided, LR images will be generated in dataloader
+
+
+#### network
+network_G:
+  which_model_G:
+    subnet_type: DBNet
+  in_nc: 3
+  out_nc: 3
+  block_num: [8]
+  scale: 2
+  init: xavier
+
+
+#### path to training models
+path:
+  pretrain_model_G: /home/ps/workspace/xieyan/DSNet_SRNet/experiments/01_DSNetSRNet_DB_x2_scratch_DIV2K/models/last_G.pth
+  pretrain_model_D: /home/ps/workspace/xieyan/DSNet_SRNet/experiments/01_DSNetSRNet_DB_x2_scratch_DIV2K/models/last_SRcnnNet.pth
